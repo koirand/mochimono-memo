@@ -58,6 +58,10 @@ export function deleteAllItems() {
 	set([]);
 }
 
+export function setItems(newItems: Item[]) {
+	set(newItems);
+}
+
 export function getItem(id: string): Item | undefined {
 	let found: Item | undefined;
 	const unsubscribe = subscribe((items) => {

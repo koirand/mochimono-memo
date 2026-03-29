@@ -1,11 +1,36 @@
 <script lang="ts">
-	import { items, deleteAllItems } from '$lib/stores/items';
-	import { exportJSON, exportCSV } from '$lib/utils/export';
+	import { items, deleteAllItems, setItems } from '$lib/stores/items';
+	import { exportCSV } from '$lib/utils/export';
+	import { importCSV } from '$lib/utils/import';
+
+	let fileInput: HTMLInputElement;
 
 	function handleDeleteAll() {
 		if (confirm(`すべてのアイテム（${$items.length}件）を削除しますか？\nこの操作は取り消せません。`)) {
 			deleteAllItems();
 		}
+	}
+
+	async function handleImport() {
+		const file = fileInput?.files?.[0];
+		if (!file) return;
+
+		try {
+			const newItems = await importCSV(file);
+			const message =
+				$items.length > 0
+					? `既存のアイテム（${$items.length}件）をすべて削除して、インポートデータ（${newItems.length}件）に置き換えますか？`
+					: `${newItems.length}件のアイテムをインポートしますか？`;
+
+			if (confirm(message)) {
+				setItems(newItems);
+				alert(`${newItems.length}件のアイテムをインポートしました。`);
+			}
+		} catch (e) {
+			alert(e instanceof Error ? e.message : 'インポートに失敗しました。');
+		}
+
+		fileInput.value = '';
 	}
 </script>
 
@@ -18,14 +43,18 @@
 <section class="section">
 	<h3>データエクスポート</h3>
 	<p class="description">登録済みアイテム: {$items.length} 件</p>
-	<div class="export-buttons">
-		<button class="btn" onclick={() => exportJSON($items)} disabled={$items.length === 0}>
-			JSONでエクスポート
-		</button>
-		<button class="btn" onclick={() => exportCSV($items)} disabled={$items.length === 0}>
-			CSVでエクスポート
-		</button>
-	</div>
+	<button class="btn" onclick={() => exportCSV($items)} disabled={$items.length === 0}>
+		CSVでエクスポート
+	</button>
+</section>
+
+<section class="section">
+	<h3>データインポート</h3>
+	<p class="description">エクスポートしたCSVファイルからアイテムを復元します。</p>
+	<input type="file" accept=".csv" bind:this={fileInput} onchange={handleImport} hidden />
+	<button class="btn" onclick={() => fileInput.click()}>
+		CSVからインポート
+	</button>
 </section>
 
 <section class="section">
@@ -67,12 +96,6 @@
 		font-size: 0.85rem;
 		color: var(--color-text-secondary);
 		margin-bottom: 0.75rem;
-	}
-
-	.export-buttons {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
 	}
 
 	.btn {

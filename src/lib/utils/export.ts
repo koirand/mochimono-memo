@@ -14,11 +14,6 @@ function getDateString(): string {
 	return new Date().toISOString().slice(0, 10);
 }
 
-export function exportJSON(items: Item[]) {
-	const content = JSON.stringify(items, null, 2);
-	downloadFile(content, `mochimono-memo-${getDateString()}.json`, 'application/json;charset=utf-8');
-}
-
 export function exportCSV(items: Item[]) {
 	const escape = (s: string) => `"${s.replace(/"/g, '""')}"`;
 	const header = '名前,場所,メモ,作成日,更新日';
