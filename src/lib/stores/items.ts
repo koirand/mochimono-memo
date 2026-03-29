@@ -54,6 +54,10 @@ export function deleteItem(id: string) {
 	update((items) => items.filter((item) => item.id !== id));
 }
 
+export function deleteAllItems() {
+	set([]);
+}
+
 export function getItem(id: string): Item | undefined {
 	let found: Item | undefined;
 	const unsubscribe = subscribe((items) => {

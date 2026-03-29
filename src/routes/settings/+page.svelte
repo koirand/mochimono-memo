@@ -1,6 +1,12 @@
 <script lang="ts">
-	import { items } from '$lib/stores/items';
+	import { items, deleteAllItems } from '$lib/stores/items';
 	import { exportJSON, exportCSV } from '$lib/utils/export';
+
+	function handleDeleteAll() {
+		if (confirm(`すべてのアイテム（${$items.length}件）を削除しますか？\nこの操作は取り消せません。`)) {
+			deleteAllItems();
+		}
+	}
 </script>
 
 <svelte:head>
@@ -20,6 +26,14 @@
 			CSVでエクスポート
 		</button>
 	</div>
+</section>
+
+<section class="section">
+	<h3>データ削除</h3>
+	<p class="description">すべてのアイテムを一括で削除します。</p>
+	<button class="btn btn-danger" onclick={handleDeleteAll} disabled={$items.length === 0}>
+		すべてのアイテムを削除
+	</button>
 </section>
 
 <section class="section">
@@ -70,5 +84,13 @@
 	.btn:disabled {
 		opacity: 0.5;
 		cursor: not-allowed;
+	}
+
+	.btn-danger {
+		background: var(--color-danger);
+	}
+
+	.btn-danger:disabled {
+		background: var(--color-danger);
 	}
 </style>

@@ -1,10 +1,18 @@
 <script lang="ts">
-	import { items } from '$lib/stores/items';
+	import { items, deleteItem } from '$lib/stores/items';
 	import { LOCATIONS, LOCATION_COLORS } from '$lib/types';
 	import { base } from '$app/paths';
 
 	let searchQuery = $state('');
 	let filterLocation = $state('');
+
+	function handleDelete(e: Event, item: { id: string; name: string }) {
+		e.preventDefault();
+		e.stopPropagation();
+		if (confirm(`「${item.name}」を削除しますか？`)) {
+			deleteItem(item.id);
+		}
+	}
 
 	let filteredItems = $derived.by(() => {
 		let result = $items;
@@ -71,12 +79,19 @@
 				<a href="{base}/edit/{item.id}" class="item-card">
 					<div class="item-header">
 						<span class="item-name">{item.name}</span>
-						<span
-							class="location-badge"
-							style="background: {LOCATION_COLORS[item.location] ?? '#999'}"
-						>
-							{item.location}
-						</span>
+						<div class="item-actions">
+							<span
+								class="location-badge"
+								style="background: {LOCATION_COLORS[item.location] ?? '#999'}"
+							>
+								{item.location}
+							</span>
+							<button
+								class="delete-btn"
+								onclick={(e) => handleDelete(e, item)}
+								title="削除"
+							>✕</button>
+						</div>
 					</div>
 					{#if item.memo}
 						<p class="item-memo">{item.memo}</p>
@@ -147,6 +162,32 @@
 		justify-content: space-between;
 		align-items: center;
 		gap: 0.5rem;
+	}
+
+	.item-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		flex-shrink: 0;
+	}
+
+	.delete-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		padding: 0;
+		min-height: auto;
+		border-radius: 50%;
+		background: none;
+		color: var(--color-text-secondary);
+		font-size: 0.75rem;
+	}
+
+	.delete-btn:hover {
+		background: #fee;
+		color: var(--color-danger);
 	}
 
 	.item-name {
