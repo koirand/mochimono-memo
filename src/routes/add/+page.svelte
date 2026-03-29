@@ -14,7 +14,6 @@
 		addItem(name.trim(), location, memo.trim());
 		toast = `「${name.trim()}」を登録しました`;
 		name = '';
-		memo = '';
 		clearTimeout(toastTimer);
 		toastTimer = setTimeout(() => (toast = ''), 2500);
 	}
