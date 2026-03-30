@@ -1,8 +1,6 @@
 <script lang="ts">
     import { items, deleteItem } from '$lib/stores/items';
     import { LOCATIONS, LOCATION_COLORS } from '$lib/types';
-    import { base } from '$app/paths';
-
     let searchQuery = $state('');
     let filterLocation = $state('');
 
@@ -57,7 +55,7 @@
     <div class="empty">
         {#if $items.length === 0}
             <p>まだアイテムがありません</p>
-            <a href="{base}/add" class="add-link">最初のアイテムを追加する</a>
+            <a href="/add" class="add-link">最初のアイテムを追加する</a>
         {:else}
             <p>該当するアイテムがありません</p>
         {/if}
@@ -66,7 +64,7 @@
     <ul class="item-list">
         {#each filteredItems as item (item.id)}
             <li>
-                <a href="{base}/edit/{item.id}" class="item-card">
+                <a href="/edit/{item.id}" class="item-card">
                     <div class="item-header">
                         <span class="item-name">{item.name}</span>
                         <div class="item-actions">

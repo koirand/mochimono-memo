@@ -1,7 +1,6 @@
 <script lang="ts">
     import { page } from '$app/stores';
     import { goto } from '$app/navigation';
-    import { base } from '$app/paths';
     import { getItem, updateItem, deleteItem } from '$lib/stores/items';
     import { LOCATIONS } from '$lib/types';
 
@@ -15,14 +14,14 @@
         e.preventDefault();
         if (!item || !name.trim()) return;
         updateItem(item.id, { name: name.trim(), location, memo: memo.trim() });
-        goto(`${base}/`);
+        goto('/');
     }
 
     function handleDelete() {
         if (!item) return;
         if (confirm(`「${item.name}」を削除しますか？`)) {
             deleteItem(item.id);
-            goto(`${base}/`);
+            goto('/');
         }
     }
 </script>
@@ -66,7 +65,7 @@
 {:else}
     <div class="not-found">
         <p>アイテムが見つかりません</p>
-        <a href="{base}/">一覧に戻る</a>
+        <a href="/">一覧に戻る</a>
     </div>
 {/if}
 
