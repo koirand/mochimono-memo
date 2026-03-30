@@ -1,13 +1,13 @@
 <script lang="ts">
     import '../app.css';
-    import { base } from '$app/paths';
+    import { resolve } from '$app/paths';
 
     let { children } = $props();
 </script>
 
 <div class="app">
     <header>
-        <a href="{base}/" class="logo">もちものメモ</a>
+        <a href={resolve('/')} class="logo">もちものメモ</a>
     </header>
 
     <main>
@@ -15,15 +15,15 @@
     </main>
 
     <nav>
-        <a href="{base}/" class="nav-item">
+        <a href={resolve('/')} class="nav-item">
             <span class="nav-icon">📋</span>
             <span>一覧</span>
         </a>
-        <a href="{base}/add" class="nav-item">
+        <a href={resolve('/add')} class="nav-item">
             <span class="nav-icon">➕</span>
             <span>追加</span>
         </a>
-        <a href="{base}/settings" class="nav-item">
+        <a href={resolve('/settings')} class="nav-item">
             <span class="nav-icon">⚙</span>
             <span>設定</span>
         </a>
