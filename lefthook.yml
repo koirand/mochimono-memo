@@ -3,12 +3,12 @@ pre-commit:
   jobs:
     - name: prettier
       glob: '*.{ts,js,svelte,css,json,md,yaml,yml,html}'
-      run: npx prettier --check {staged_files}
+      run: pnpm exec prettier --check {staged_files}
 
     - name: eslint
       glob: '*.{ts,js,svelte}'
-      run: npx eslint {staged_files}
+      run: pnpm exec eslint {staged_files}
 
     - name: svelte-check
       glob: '*.{ts,svelte}'
-      run: npx svelte-check --tsconfig tsconfig.json
+      run: pnpm exec svelte-check --tsconfig tsconfig.json
