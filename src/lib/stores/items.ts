@@ -26,13 +26,14 @@ subscribe((items) => {
 
 export const items = { subscribe };
 
-export function addItem(name: string, location: string, memo: string): Item {
+export function addItem(name: string, location: string, memo: string, owner: string = ''): Item {
     const now = new Date().toISOString();
     const item: Item = {
         id: crypto.randomUUID(),
         name,
         location,
         memo,
+        owner,
         createdAt: now,
         updatedAt: now,
     };
@@ -40,7 +41,10 @@ export function addItem(name: string, location: string, memo: string): Item {
     return item;
 }
 
-export function updateItem(id: string, changes: Partial<Pick<Item, 'name' | 'location' | 'memo'>>) {
+export function updateItem(
+    id: string,
+    changes: Partial<Pick<Item, 'name' | 'location' | 'memo' | 'owner'>>
+) {
     update((items) =>
         items.map((item) =>
             item.id === id ? { ...item, ...changes, updatedAt: new Date().toISOString() } : item

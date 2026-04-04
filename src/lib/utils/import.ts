@@ -68,12 +68,14 @@ export function importCSV(file: File): Promise<Item[]> {
                     const memo = fields[2]?.trim() ?? '';
                     const createdAt = fields[3]?.trim() || now;
                     const updatedAt = fields[4]?.trim() || now;
+                    const owner = fields[5]?.trim() ?? '';
 
                     items.push({
                         id: crypto.randomUUID(),
                         name,
                         location,
                         memo,
+                        owner,
                         createdAt,
                         updatedAt,
                     });

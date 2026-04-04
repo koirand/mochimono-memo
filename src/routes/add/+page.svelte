@@ -5,15 +5,18 @@
     let name = $state('');
     let location = $state(LOCATIONS[0]);
     let memo = $state('');
+    let owner = $state('');
     let toast = $state('');
     let toastTimer: ReturnType<typeof setTimeout> | undefined;
 
     function handleSubmit(e: Event) {
         e.preventDefault();
         if (!name.trim()) return;
-        addItem(name.trim(), location, memo.trim());
+        addItem(name.trim(), location, memo.trim(), owner.trim());
         toast = `「${name.trim()}」を登録しました`;
         name = '';
+        memo = '';
+        owner = '';
         clearTimeout(toastTimer);
         toastTimer = setTimeout(() => (toast = ''), 2500);
     }
@@ -43,6 +46,11 @@
     <div class="field">
         <label for="memo">メモ</label>
         <textarea id="memo" bind:value={memo} placeholder="例: 2段目の棚の奥"></textarea>
+    </div>
+
+    <div class="field">
+        <label for="owner">持ち主</label>
+        <input id="owner" type="text" bind:value={owner} placeholder="例: 太郎" />
     </div>
 
     {#if toast}

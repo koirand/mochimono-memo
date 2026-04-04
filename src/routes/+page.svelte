@@ -21,7 +21,10 @@
         if (searchQuery) {
             const q = searchQuery.toLowerCase();
             result = result.filter(
-                (item) => item.name.toLowerCase().includes(q) || item.memo.toLowerCase().includes(q)
+                (item) =>
+                    item.name.toLowerCase().includes(q) ||
+                    item.memo.toLowerCase().includes(q) ||
+                    (item.owner ?? '').toLowerCase().includes(q)
             );
         }
         return result;
@@ -84,6 +87,9 @@
                     </div>
                     {#if item.memo}
                         <p class="item-memo">{item.memo}</p>
+                    {/if}
+                    {#if item.owner}
+                        <p class="item-owner">持ち主: {item.owner}</p>
                     {/if}
                 </a>
             </li>
@@ -199,6 +205,15 @@
     .item-memo {
         margin-top: 0.35rem;
         font-size: 0.8rem;
+        color: var(--color-text-secondary);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .item-owner {
+        margin-top: 0.2rem;
+        font-size: 0.75rem;
         color: var(--color-text-secondary);
         overflow: hidden;
         text-overflow: ellipsis;

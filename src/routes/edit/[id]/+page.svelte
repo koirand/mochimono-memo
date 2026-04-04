@@ -10,11 +10,17 @@
     let name = $state(item?.name ?? '');
     let location = $state(item?.location ?? LOCATIONS[0]);
     let memo = $state(item?.memo ?? '');
+    let owner = $state(item?.owner ?? '');
 
     function handleSubmit(e: Event) {
         e.preventDefault();
         if (!item || !name.trim()) return;
-        updateItem(item.id, { name: name.trim(), location, memo: memo.trim() });
+        updateItem(item.id, {
+            name: name.trim(),
+            location,
+            memo: memo.trim(),
+            owner: owner.trim(),
+        });
         goto(resolve('/'));
     }
 
@@ -52,6 +58,11 @@
         <div class="field">
             <label for="memo">メモ</label>
             <textarea id="memo" bind:value={memo}></textarea>
+        </div>
+
+        <div class="field">
+            <label for="owner">持ち主</label>
+            <input id="owner" type="text" bind:value={owner} placeholder="例: 太郎" />
         </div>
 
         <button type="submit" class="btn-primary" disabled={!name.trim()}>更新</button>

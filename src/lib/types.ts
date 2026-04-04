@@ -3,6 +3,7 @@ export interface Item {
     name: string;
     location: string;
     memo: string;
+    owner?: string;
     createdAt: string;
     updatedAt: string;
 }

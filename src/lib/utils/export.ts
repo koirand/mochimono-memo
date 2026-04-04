@@ -16,9 +16,11 @@ function getDateString(): string {
 
 export function exportCSV(items: Item[]) {
     const escape = (s: string) => `"${s.replace(/"/g, '""')}"`;
-    const header = '名前,場所,メモ,作成日,更新日';
+    const header = '名前,場所,メモ,作成日,更新日,持ち主';
     const rows = items.map((item) =>
-        [item.name, item.location, item.memo, item.createdAt, item.updatedAt].map(escape).join(',')
+        [item.name, item.location, item.memo, item.createdAt, item.updatedAt, item.owner ?? '']
+            .map(escape)
+            .join(',')
     );
     const content = '\uFEFF' + [header, ...rows].join('\n');
     downloadFile(content, `mochimono-memo-${getDateString()}.csv`, 'text/csv;charset=utf-8');

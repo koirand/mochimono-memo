@@ -26,3 +26,4 @@ vite.config.ts.timestamp-*
 .claude/settings.local.json
 .claude/plans/
 .claude/worktrees/
+.claude/launch.json
